@@ -60,7 +60,7 @@
             Limpiar.TabIndex = 1;
             Limpiar.Text = "Limpiar";
             Limpiar.UseVisualStyleBackColor = true;
-            Limpiar.Click += Limpiar_Click;
+           
             // 
             // ID
             // 

@@ -1,82 +1,63 @@
-﻿using Business_Layer;  // Importar la capa lógica
-using Entity_layer;  // Importar la capa de entidades
+﻿using Business_Layer;
+using Entity_layer;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
-
 
 namespace Graphic_Layer
 {
     public partial class Art_Form : Form
     {
-        // Instancia de la capa lógica para categorías
         private Cat_ArtLN categoriasLogica = new Cat_ArtLN();
-        private ArticuloLN articuloLogica = new ArticuloLN();  // Instancia de la capa lógica para artículos
+        private ArticuloLN articuloLogica = new ArticuloLN();
 
-        #region Constructor
         public Art_Form()
         {
             InitializeComponent();
-
-            // Llenar el ComboBox con las categorías registradas
             LlenarComboBoxCategorias();
         }
-        #endregion
 
-        #region Métodos
-
-        // Método para llenar el ComboBox con las categorías registradas
         private void LlenarComboBoxCategorias()
         {
-            Cat_Art[] categorias = categoriasLogica.Consultar();  // Obtener las categorías
-
-            // Limpiar el ComboBox antes de agregar
+            List<Cat_Art> categorias = categoriasLogica.Consultar();
             comboBox1.Items.Clear();
-
-            // Agregar las categorías al ComboBox
             foreach (var categoria in categorias)
             {
-                if (categoria != null)
-                {
-                    comboBox1.Items.Add(categoria);  // Agregar el objeto completo
-                }
+                comboBox1.Items.Add(categoria);
             }
-
-            // Establecer qué propiedad mostrar en el ComboBox (en este caso, el Nombre)
             comboBox1.DisplayMember = "Nombre";
-            comboBox1.ValueMember = "Id";  // Opcional: si necesitas el ID como valor
         }
 
-        #endregion
+        private bool ValidarCamposLlenos()
+        {
+            return !string.IsNullOrWhiteSpace(ID.Text) &&
+                   !string.IsNullOrWhiteSpace(Descripcion.Text) &&
+                   comboBox1.SelectedIndex != -1 &&
+                   !string.IsNullOrWhiteSpace(Marca.Text) &&
+                   comboBox2.SelectedIndex != -1;
+        }
 
-        #region Eventos
-
-        // Método que se ejecuta al hacer clic en el botón "Enviar"
         private void Enviar_Click(object sender, EventArgs e)
         {
+            if (!ValidarCamposLlenos())
+            {
+                MessageBox.Show("Todos los campos son obligatorios.");
+                return;
+            }
+
             try
             {
-                // Captura los valores de los TextBox
                 int id = int.Parse(ID.Text);
                 string descripcion = Descripcion.Text;
-                Cat_Art categoriaSeleccionada = (Cat_Art)comboBox1.SelectedItem;  // Obtener la categoría seleccionada
+                Cat_Art categoriaSeleccionada = (Cat_Art)comboBox1.SelectedItem;
                 string marca = Marca.Text;
-                bool activo = comboBox2.SelectedItem.ToString() == "Sí";  // Convertir "Sí" a true y "No" a false
+                bool activo = comboBox2.SelectedItem.ToString() == "Sí";
 
-                // Crear el nuevo artículo
                 Articulo nuevoArticulo = new Articulo(id, descripcion, categoriaSeleccionada, marca, activo);
+                bool guardado = articuloLogica.GuardarArticulo(nuevoArticulo);
 
-                // Guardar el artículo en la capa lógica
-                bool guardado = articuloLogica.GuardarArticulo(nuevoArticulo);  // Usar la instancia
-
-                if (guardado)
-                {
-                    MessageBox.Show("Artículo guardado con éxito.");
-                    LimpiarCampos();  // Limpiar los TextBox después de enviar los datos
-                }
-                else
-                {
-                    MessageBox.Show("Error: El ID ya existe.");
-                }
+                MessageBox.Show(guardado ? "Artículo guardado con éxito." : "Error: El ID ya existe.");
+                if (guardado) LimpiarCampos();
             }
             catch (Exception ex)
             {
@@ -84,22 +65,13 @@ namespace Graphic_Layer
             }
         }
 
-        // Método que se ejecuta al hacer clic en el botón "Limpiar"
-        private void Limpiar_Click(object sender, EventArgs e)
-        {
-            LimpiarCampos();
-        }
-
-        // Método para limpiar los campos después de enviar los datos
         private void LimpiarCampos()
         {
             ID.Clear();
             Descripcion.Clear();
-            comboBox1.SelectedIndex = -1;  // Limpiar la selección del ComboBox de categorías
+            comboBox1.SelectedIndex = -1;
             Marca.Clear();
-            comboBox2.SelectedIndex = -1;  // Limpiar la selección del ComboBox de Activo
+            comboBox2.SelectedIndex = -1;
         }
-
-        #endregion
     }
 }

@@ -97,12 +97,14 @@
             sucursalToolStripMenuItem.Name = "sucursalToolStripMenuItem";
             sucursalToolStripMenuItem.Size = new Size(186, 22);
             sucursalToolStripMenuItem.Text = "Artículo por Sucursal";
+            sucursalToolStripMenuItem.Click += sucursalToolStripMenuItem_Click;
             // 
             // clienteToolStripMenuItem
             // 
             clienteToolStripMenuItem.Name = "clienteToolStripMenuItem";
             clienteToolStripMenuItem.Size = new Size(186, 22);
             clienteToolStripMenuItem.Text = "Cliente ";
+            clienteToolStripMenuItem.Click += clienteToolStripMenuItem_Click;
             // 
             // consultarToolStripMenuItem
             // 
@@ -144,12 +146,14 @@
             toolStripMenuItem6.Name = "toolStripMenuItem6";
             toolStripMenuItem6.Size = new Size(186, 22);
             toolStripMenuItem6.Text = "Artículo por Sucursal";
+            toolStripMenuItem6.Click += toolStripMenuItem6_Click;
             // 
             // toolStripMenuItem5
             // 
             toolStripMenuItem5.Name = "toolStripMenuItem5";
             toolStripMenuItem5.Size = new Size(186, 22);
             toolStripMenuItem5.Text = "Cliente ";
+            toolStripMenuItem5.Click += toolStripMenuItem5_Click;
             // 
             // dataGridView1
             // 
@@ -159,6 +163,7 @@
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(625, 365);
             dataGridView1.TabIndex = 1;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // Principal
             // 

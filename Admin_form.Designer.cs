@@ -104,7 +104,7 @@
             Limpiar.TabIndex = 7;
             Limpiar.Text = "Limpiar";
             Limpiar.UseVisualStyleBackColor = true;
-            Limpiar.Click += Limpiar_Click;
+          
             // 
             // label1
             // 

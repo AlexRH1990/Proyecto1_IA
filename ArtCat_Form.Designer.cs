@@ -31,12 +31,12 @@
             button1 = new Button();
             Enviar = new Button();
             ID = new TextBox();
-            Name = new TextBox();
+            textboxName = new TextBox();
             Description = new TextBox();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            
+            SuspendLayout();
             // 
             // button1
             // 
@@ -44,8 +44,9 @@
             button1.Name = "button1";
             button1.Size = new Size(121, 52);
             button1.TabIndex = 0;
-            button1.Text = "Volver";
+            button1.Text = "Limpiar";
             button1.UseVisualStyleBackColor = true;
+         
             // 
             // Enviar
             // 
@@ -55,7 +56,7 @@
             Enviar.TabIndex = 1;
             Enviar.Text = "Enviar";
             Enviar.UseVisualStyleBackColor = true;
-            Enviar.Click += button2_Click;
+            Enviar.Click += ButtonEnviar_Click;
             // 
             // ID
             // 
@@ -64,13 +65,12 @@
             ID.Size = new Size(175, 23);
             ID.TabIndex = 2;
             // 
-            // Name
+            // textboxName
             // 
-            Name.Location = new Point(54, 181);
-            Name.Name = "Name";
-            Name.Size = new Size(175, 23);
-            Name.TabIndex = 3;
-            Name.TextChanged += Name_TextChanged;
+            textboxName.Location = new Point(54, 181);
+            textboxName.Name = "textboxName";
+            textboxName.Size = new Size(175, 23);
+            textboxName.TabIndex = 3;
             // 
             // Description
             // 
@@ -115,11 +115,11 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(Description);
-            Controls.Add(Name);
+            Controls.Add(textboxName);
             Controls.Add(ID);
             Controls.Add(Enviar);
             Controls.Add(button1);
-            
+            Name = "ArtCat_Form";
             ResumeLayout(false);
             PerformLayout();
         }
@@ -131,7 +131,7 @@
         private Button button1;
         private Button Enviar;
         private TextBox ID;
-        private TextBox Name;
+        private TextBox textboxName;
         private TextBox Description;
         private Label label1;
         private Label label2;

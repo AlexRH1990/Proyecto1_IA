@@ -161,6 +161,7 @@
             button1.TabIndex = 13;
             button1.Text = "Limpiar";
             button1.UseVisualStyleBackColor = true;
+        
             // 
             // SucursalForm
             // 

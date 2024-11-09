@@ -1,6 +1,8 @@
 using Business_Layer;
 using Entity_layer;
 using Graphic_Layer;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace Proyecto1_IA
 {
@@ -11,32 +13,20 @@ namespace Proyecto1_IA
             InitializeComponent();
         }
 
-
-
         private void categoríaDeArtículoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Instanciar el formulario ArtCat_Form
             ArtCat_Form formArtCat = new ArtCat_Form();
-
-            // Mostrar el formulario de manera modal (el usuario debe cerrarlo para regresar al principal)
             formArtCat.ShowDialog();
-
-            // Si prefieres que el formulario se abra sin bloquear la interacción con el formulario principal:
-            // formArtCat.Show();
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
-        { // Crear instancia de la capa lógica para consultar los datos
+        {
             Cat_ArtLN categoriasLogica = new Cat_ArtLN();
+            List<Cat_Art> categorias = categoriasLogica.Consultar();
 
-            // Obtener el arreglo de categorías desde la capa lógica
-            Cat_Art[] categorias = categoriasLogica.Consultar();
-
-            // Limpiar el DataGridView antes de cargar nuevos datos (si es necesario)
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
 
-            // Si el DataGridView no tiene columnas, agregarlas dinámicamente
             if (dataGridView1.Columns.Count == 0)
             {
                 dataGridView1.Columns.Add("Id", "ID");
@@ -44,35 +34,26 @@ namespace Proyecto1_IA
                 dataGridView1.Columns.Add("Descripcion", "Descripción Categoría");
             }
 
-            // Cargar los datos en el DataGridView
             foreach (var categoria in categorias)
             {
-                if (categoria != null)  // Solo agregar categorías no nulas
-                {
-                    dataGridView1.Rows.Add(categoria.Id, categoria.Nombre, categoria.Descripcion);
-                }
+                dataGridView1.Rows.Add(categoria.Id, categoria.Nombre, categoria.Descripcion);
             }
         }
 
         private void artículoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Art_Form formArt = new Art_Form();
-            formArt.Show();  // Abre el formulario sin bloquear el principal
+            formArt.Show();
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            // Crear instancia de la capa lógica para consultar los artículos
             ArticuloLN articulosLogica = new ArticuloLN();
+            List<Articulo> articulos = articulosLogica.Consultar();
 
-            // Obtener el arreglo de artículos desde la capa lógica
-            Articulo[] articulos = articulosLogica.Consultar();
-
-            // Limpiar el DataGridView antes de cargar nuevos datos (si es necesario)
             dataGridView1.Rows.Clear();
-            dataGridView1.Columns.Clear();  // Limpiar también las columnas
+            dataGridView1.Columns.Clear();
 
-            // Si el DataGridView no tiene columnas, agregarlas dinámicamente
             if (dataGridView1.Columns.Count == 0)
             {
                 dataGridView1.Columns.Add("Id", "ID");
@@ -82,36 +63,26 @@ namespace Proyecto1_IA
                 dataGridView1.Columns.Add("Activo", "Activo");
             }
 
-            // Cargar los datos de los artículos en el DataGridView
             foreach (var articulo in articulos)
             {
-                if (articulo != null)  // Solo agregar artículos no nulos
-                {
-                    // Agregar una nueva fila al DataGridView con los datos del artículo
-                    dataGridView1.Rows.Add(
-                        articulo.Id,
-                        articulo.Descripcion,
-                        articulo.Categoria.Nombre,  // Mostrar el nombre de la categoría asociada
-                        articulo.Marca,
-                        articulo.Activo ? "Sí" : "No"  // Convertir el booleano a "Sí"/"No"
-                    );
-                }
+                dataGridView1.Rows.Add(
+                    articulo.Id,
+                    articulo.Descripcion,
+                    articulo.Categoria.Nombre,
+                    articulo.Marca,
+                    articulo.Activo ? "Sí" : "No"
+                );
             }
         }
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            // Crear instancia de la capa lógica para consultar los administradores
             AdministradorLN administradoresLogica = new AdministradorLN();
+            List<Administrador> administradores = administradoresLogica.Consultar();
 
-            // Obtener el arreglo de administradores desde la capa lógica
-            Administrador[] administradores = administradoresLogica.Consultar();
-
-            // Limpiar completamente el DataGridView: filas y columnas
             dataGridView1.Rows.Clear();
-            dataGridView1.Columns.Clear();  // Limpiar también las columnas
+            dataGridView1.Columns.Clear();
 
-            // Agregar las columnas necesarias para los administradores
             dataGridView1.Columns.Add("Identificacion", "ID");
             dataGridView1.Columns.Add("Nombre", "Nombre");
             dataGridView1.Columns.Add("PrimerApellido", "Primer Apellido");
@@ -119,28 +90,23 @@ namespace Proyecto1_IA
             dataGridView1.Columns.Add("FechaNacimiento", "Fecha de Nacimiento");
             dataGridView1.Columns.Add("FechaIngreso", "Fecha de Ingreso");
 
-            // Cargar los datos de los administradores en el DataGridView
             foreach (var administrador in administradores)
             {
-                if (administrador != null)  // Solo agregar administradores no nulos
-                {
-                    // Agregar una nueva fila al DataGridView con los datos del administrador
-                    dataGridView1.Rows.Add(
-                        administrador.Identificacion,
-                        administrador.Nombre,
-                        administrador.PrimerApellido,
-                        administrador.SegundoApellido,
-                        administrador.FechaNacimiento.ToShortDateString(),  // Formato corto de la fecha
-                        administrador.FechaIngreso.ToShortDateString()  // Formato corto de la fecha
-                    );
-                }
+                dataGridView1.Rows.Add(
+                    administrador.Identificacion,
+                    administrador.Nombre,
+                    administrador.PrimerApellido,
+                    administrador.SegundoApellido,
+                    administrador.FechaNacimiento.ToShortDateString(),
+                    administrador.FechaIngreso.ToShortDateString()
+                );
             }
         }
 
         private void administradorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Admin_form formArt = new Admin_form();
-            formArt.Show();  // Abre el formulario sin bloquear el principal
+            formArt.Show();
         }
 
         private void administradorSucursalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -151,17 +117,12 @@ namespace Proyecto1_IA
 
         private void toolStripMenuItem4_Click(object sender, EventArgs e)
         {
-            // Crear instancia de la capa lógica para consultar las sucursales
             SucursalLN sucursalesLogica = new SucursalLN();
+            List<Sucursal> sucursales = sucursalesLogica.Consultar();
 
-            // Obtener el arreglo de sucursales desde la capa lógica
-            Sucursal[] sucursales = sucursalesLogica.Consultar();
-
-            // Limpiar completamente el DataGridView: filas y columnas
             dataGridView1.Rows.Clear();
-            dataGridView1.Columns.Clear();  // Limpiar también las columnas
+            dataGridView1.Columns.Clear();
 
-            // Agregar las columnas necesarias para las sucursales
             dataGridView1.Columns.Add("Id", "ID de Sucursal");
             dataGridView1.Columns.Add("Nombre", "Nombre");
             dataGridView1.Columns.Add("Administrador", "Administrador");
@@ -169,23 +130,94 @@ namespace Proyecto1_IA
             dataGridView1.Columns.Add("Telefono", "Teléfono");
             dataGridView1.Columns.Add("Activo", "Activo");
 
-            // Cargar los datos de las sucursales en el DataGridView
             foreach (var sucursal in sucursales)
             {
-                if (sucursal != null)  // Solo agregar sucursales no nulas
-                {
-                    // Agregar una nueva fila al DataGridView con los datos de la sucursal
-                    dataGridView1.Rows.Add(
-                        sucursal.Id,
-                        sucursal.Nombre,
-                        sucursal.Administrador.Nombre,  // Mostrar el nombre del administrador
-                        sucursal.Direccion,
-                        sucursal.Telefono,
-                        sucursal.Activo ? "Sí" : "No"  // Mostrar "Sí" o "No" para el estado de activo
-                    );
-                }
+                dataGridView1.Rows.Add(
+                    sucursal.Id,
+                    sucursal.Nombre,
+                    sucursal.Administrador.Nombre,
+                    sucursal.Direccion,
+                    sucursal.Telefono,
+                    sucursal.Activo ? "Sí" : "No"
+                );
             }
+        }
 
+        private void sucursalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ArticuloxSucursalForm formArt = new ArticuloxSucursalForm();
+            formArt.Show();
+        }
+
+        private void toolStripMenuItem6_Click(object sender, EventArgs e)
+        {
+            // Instancia de la capa lógica para consultar las relaciones de Artículo por Sucursal
+            ArticuloxSucursalLN articulosXSucursalLogica = new ArticuloxSucursalLN();
+
+            // Obtener los datos desde la capa lógica (sin modificar `ArticuloxSucursalAD`)
+            List<ArticuloxSucursal> articulosXSucursal = articulosXSucursalLogica.Consultar();
+
+            // Limpiar el DataGridView antes de cargar nuevos datos
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+
+            // Agregar columnas para mostrar la información
+            dataGridView1.Columns.Add("IdSucursal", "ID de Sucursal");
+            dataGridView1.Columns.Add("NombreSucursal", "Nombre de Sucursal");
+            dataGridView1.Columns.Add("IdArticulo", "ID de Artículo");
+            dataGridView1.Columns.Add("DescripcionArticulo", "Descripción de Artículo");
+            dataGridView1.Columns.Add("Cantidad", "Cantidad");
+
+            // Cargar los datos en el DataGridView
+            foreach (var registro in articulosXSucursal)
+            {
+                dataGridView1.Rows.Add(
+                    Convert.ToInt32(registro.Sucursal.Id),                // Convertir ID de sucursal a int
+                    registro.Sucursal.Nombre,                             // Nombre de la sucursal
+                    Convert.ToInt32(registro.Articulo.Id),               // Convertir ID de artículo a int
+                    registro.Articulo.Descripcion,                        // Descripción del artículo
+                    Convert.ToInt32(registro.Cantidad)                    // Convertir cantidad a int
+                );
+            }
+        }
+
+
+        private void clienteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ClienteForm formArt = new ClienteForm();
+            formArt.Show();
+        }
+
+        private void toolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+            ClienteLN clienteLogica = new ClienteLN();
+            List<Cliente> clientes = clienteLogica.Consultar();
+
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+
+            dataGridView1.Columns.Add("Identificacion", "ID");
+            dataGridView1.Columns.Add("Nombre", "Nombre");
+            dataGridView1.Columns.Add("PrimerApellido", "Primer Apellido");
+            dataGridView1.Columns.Add("SegundoApellido", "Segundo Apellido");
+            dataGridView1.Columns.Add("FechaNacimiento", "Fecha de Nacimiento");
+            dataGridView1.Columns.Add("Activo", "Activo");
+
+            foreach (var cliente in clientes)
+            {
+                dataGridView1.Rows.Add(
+                    cliente.Identificacion,
+                    cliente.Nombre,
+                    cliente.PrimerApellido,
+                    cliente.SegundoApellido,
+                    cliente.FechaNacimiento.ToShortDateString(),
+                    cliente.Activo ? "Sí" : "No"
+                );
+            }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
         }
     }
 }

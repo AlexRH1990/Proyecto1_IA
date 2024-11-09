@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Business_Layer\Business_Layer.csproj" />
     <ProjectReference Include="..\Entity_layer\Entity_layer.csproj" />
   </ItemGroup>

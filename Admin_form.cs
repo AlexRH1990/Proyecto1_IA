@@ -1,24 +1,57 @@
-﻿using Entity_layer;  // Importar la capa de entidades
-using Business_Layer;  // Importar la capa lógica
+﻿using Business_Layer;
+using Entity_layer;
 using System;
 using System.Windows.Forms;
-using Data_layer;
 
 namespace Graphic_Layer
 {
     public partial class Admin_form : Form
     {
         private AdministradorLN administradores = new AdministradorLN();
+
         public Admin_form()
         {
             InitializeComponent();
         }
 
+        private bool ValidarCamposLlenos()
+        {
+            if (string.IsNullOrWhiteSpace(ID.Text))
+            {
+                MessageBox.Show("El campo ID no puede estar vacío.");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(Nombre.Text))
+            {
+                MessageBox.Show("El campo Nombre no puede estar vacío.");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(PrimerApellido.Text))
+            {
+                MessageBox.Show("El campo Primer Apellido no puede estar vacío.");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(SegundoApellido.Text))
+            {
+                MessageBox.Show("El campo Segundo Apellido no puede estar vacío.");
+                return false;
+            }
+
+            return true;
+        }
+
         private void Enviar_Click(object sender, EventArgs e)
         {
+            if (!ValidarCamposLlenos())
+            {
+                return;
+            }
+
             try
             {
-                // Captura los valores de los TextBox y DateTimePickers
                 int id = int.Parse(ID.Text);
                 string nombre = Nombre.Text;
                 string primerApellido = PrimerApellido.Text;
@@ -26,16 +59,13 @@ namespace Graphic_Layer
                 DateTime fechaNacimiento = FechaNacimientoPicker.Value;
                 DateTime fechaIngreso = FechaIngresoPicker.Value;
 
-                // Crear el nuevo administrador
                 Administrador nuevoAdministrador = new Administrador(id, nombre, primerApellido, segundoApellido, fechaNacimiento, fechaIngreso);
-
-                // Guardar el administrador en la capa lógica
                 bool guardado = administradores.GuardarAdministrador(nuevoAdministrador);
 
                 if (guardado)
                 {
                     MessageBox.Show("Administrador guardado con éxito.");
-                    LimpiarCampos();  // Limpiar los TextBox después de enviar los datos
+                    LimpiarCampos();
                 }
                 else
                 {
@@ -48,10 +78,6 @@ namespace Graphic_Layer
             }
         }
 
-        private void Limpiar_Click(object sender, EventArgs e)
-        {
-            LimpiarCampos();
-        }
         private void LimpiarCampos()
         {
             ID.Clear();
@@ -61,7 +87,5 @@ namespace Graphic_Layer
             FechaNacimientoPicker.Value = DateTime.Now;
             FechaIngresoPicker.Value = DateTime.Now;
         }
-
-       
     }
 }
